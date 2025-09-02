@@ -27,7 +27,6 @@ import android.app.Dialog
 import android.content.Context
 import android.util.AttributeSet
 import android.view.ViewGroup
-import android.widget.Filter.FilterResults
 import android.widget.AdapterView.OnItemClickListener
 import android.content.DialogInterface
 import android.view.View
