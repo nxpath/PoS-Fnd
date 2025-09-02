@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace "cloud.multipos.pos"
-    compileSdkVersion 34   // update ke 34 biar sesuai dengan gradle terbaru
+    compileSdkVersion 34
 
     defaultConfig {
         applicationId "cloud.multipos.pos"
@@ -17,7 +17,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        // custom BuildConfig
+        // Custom BuildConfig fields
         buildConfigField "Boolean", "USE_CAMERA", "false"
         buildConfigField "String", "VERSION_NAME", "\"2.1.127\""
     }
@@ -41,16 +41,10 @@ android {
         }
     }
 
-    // 🔥 fix BuildConfig error + aktifkan binding
     buildFeatures {
         buildConfig true
         viewBinding true
         dataBinding true
-    }
-
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
     }
 
     compileOptions {
@@ -69,6 +63,11 @@ android {
             versionCode defaultConfig.versionCode
             versionName defaultConfig.versionName
         }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
 }
 
@@ -94,13 +93,12 @@ dependencies {
     // Logger
     implementation 'org.slf4j:slf4j-log4j12:1.7.12'
 
-    // Hardware libs (JAR/AAR lokal)
+    // Hardware libs
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation fileTree(dir: 'libs', include: ['*.aar'])
     implementation 'com.sumup:merchant-sdk:3.2.2'
-    // implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
 
-    // Barcode Scanner
+    // ML Kit Barcode Scanner
     implementation 'com.google.mlkit:barcode-scanning:17.2.0'
 
     // CameraX
