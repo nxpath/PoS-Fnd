@@ -1,27 +1,55 @@
-name: Android CI
+name: Android CI/CD
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch: # Bisa dijalankan manual
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      # Masukkan nama file keystore dan credentialnya di Secrets GitHub
+      POS_RELEASE_STORE_FILE: pos-release.keystore
+      POS_RELEASE_KEY_ALIAS: ${{ secrets.POS_RELEASE_KEY_ALIAS }}
+      POS_RELEASE_KEY_PASSWORD: ${{ secrets.POS_RELEASE_KEY_PASSWORD }}
+      POS_RELEASE_STORE_PASSWORD: ${{ secrets.POS_RELEASE_STORE_PASSWORD }}
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-    - name: set up JDK 11
+    - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
-        distribution: 'temurin'
+        distribution: temurin
+        java-version: 17
         cache: gradle
 
     - name: Grant execute permission for gradlew
       run: chmod +x android/gradlew
 
-    - name: Build with Gradle
-      run: cd android && ./gradlew assembleDebug --stacktrace
+    - name: Decode release keystore (if needed)
+      if: env.POS_RELEASE_STORE_PASSWORD != ''
+      run: |
+        echo "${{ secrets.POS_RELEASE_KEYSTORE_BASE64 }}" | base64 --decode > android/app/pos-release.keystore
+
+    - name: Build Debug APK
+      run: cd android && ./gradlew clean assembleEnGenericDebug --stacktrace
+
+    - name: Build Release APK
+      run: cd android && ./gradlew assembleEnGenericRelease --stacktrace
+
+    - name: Upload Debug APK artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: EnGenericDebug-apk
+        path: android/app/build/outputs/apk/enGeneric/debug/*.apk
+
+    - name: Upload Release APK artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: EnGenericRelease-apk
+        path: android/app/build/outputs/apk/enGeneric/release/*.apk
