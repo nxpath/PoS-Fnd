@@ -22,6 +22,6 @@ jobs:
 
     - name: Build & Lint Fix
       run: |
-        ./gradlew spotlessApply
-        ./gradlew lintFix
-        ./gradlew assembleDebug
+        cd android && ./gradlew spotlessApply
+        cd android && ./gradlew lintFix
+        cd android && ./gradlew assembleDebug
