@@ -4,13 +4,13 @@
     <!-- State selected -->
     <item android:state_selected="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/list_item_selected"/>
+            <solid android:color="@color/light_select_bg"/>
         </shape>
     </item>
 
-    <!-- State pressed -->
+    <!-- State pressed (ripple effect, API 21+) -->
     <item android:state_pressed="true">
-        <ripple android:color="@color/list_item_pressed_ripple"/>
+        <ripple android:color="@color/tabs_default_color"/>
     </item>
 
     <!-- Default state -->
