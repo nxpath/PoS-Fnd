@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="list_item_selected">#BBDEFB</color> <!-- biru muda saat selected -->
-    <color name="list_item_pressed_ripple">#80C5E1FF</color> <!-- ripple biru semi-transparan -->
-</resources>
