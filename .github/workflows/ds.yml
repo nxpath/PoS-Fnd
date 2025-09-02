@@ -1,4 +1,4 @@
-name: DeepSeek Auto Fix Android
+name: Android Auto Fix
 
 on:
   push:
@@ -8,40 +8,20 @@ on:
   workflow_dispatch:
 
 jobs:
-  deepseek-fix:
+  android-fix:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
-        java-version: '11'
+        java-version: '17'
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20'
-
-    - name: Install dependencies
-      run: npm install
-
-    - name: Install DeepSeek CLI
-      run: npm install -g deepseek-cli
-
-    - name: Run DeepSeek Auto Fix
-      env:
-        DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+    - name: Build & Lint Fix
       run: |
-        deepseek analyze ./app/src --auto-fix
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
-        git add ./app/src
-        git commit -m "DeepSeek automated fix" || echo "No changes"
-        git push || echo "Nothing to push"
-
-    - name: Build Android Project
-      run: ./gradlew assembleDebug
+        ./gradlew spotlessApply
+        ./gradlew lintFix
+        ./gradlew assembleDebug
