@@ -2,6 +2,22 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'com.diffplug.spotless' version '6.20.0' // Spotless plugin
+}
+
+// Spotless konfigurasi
+spotless {
+    java {
+        target 'src/**/*.java'      // semua file Java di module app
+        googleJavaFormat()          // auto format Google Java Style
+    }
+
+    format 'xml', {
+        target 'src/**/*.xml'       // semua file XML Android
+        indentWithSpaces(4)
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
 }
 
 android {
@@ -16,8 +32,6 @@ android {
         versionName "2.1.127"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        // custom BuildConfig
         buildConfigField "Boolean", "USE_CAMERA", "false"
         buildConfigField "String", "VERSION_NAME", "\"2.1.127\""
     }
