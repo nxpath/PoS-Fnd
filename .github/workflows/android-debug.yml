@@ -30,7 +30,7 @@ jobs:
         ./gradlew clean assembleEnGenericDebug --stacktrace
 
     - name: Upload Debug APK artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: EnGenericDebug-apk
         path: android/app/build/outputs/apk/enGeneric/debug/*.apk
